@@ -36,17 +36,88 @@
             padding: 0 15px;
         }
         
-        /* Мобильный хедер */
+        /* Анимации */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+        
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        
+        @keyframes countUp {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        @keyframes moneyRain {
+            0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+        
+        /* Мобильный хедер с анимацией */
         header {
             background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
             padding: 15px 0;
             box-shadow: 0 2px 15px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+            background-size: 200% 100%;
+            animation: shimmer 3s infinite linear;
+            pointer-events: none;
         }
         
         .header-content {
             display: flex;
             flex-direction: column;
             align-items: center;
+            position: relative;
+            z-index: 1;
         }
         
         .logo {
@@ -54,6 +125,7 @@
             align-items: center;
             margin-bottom: 15px;
             text-align: center;
+            animation: slideInLeft 0.8s ease-out;
         }
         
         .logo-icon {
@@ -69,6 +141,11 @@
             overflow: hidden;
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
             flex-shrink: 0;
+            animation: pulse 2s infinite;
+        }
+        
+        .logo-icon:hover {
+            animation: rotate 1s ease-in-out;
         }
         
         .logo-icon img {
@@ -81,6 +158,7 @@
         .logo-text h1 {
             font-size: 1.5rem;
             color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
             line-height: 1.2;
         }
         
@@ -88,13 +166,15 @@
             font-size: 0.8rem;
             color: var(--light-color);
             font-style: italic;
+            opacity: 0.9;
             display: block;
             margin-top: 3px;
         }
         
-        /* Мобильная навигация */
+        /* Мобильная навигация с анимацией */
         nav {
             width: 100%;
+            animation: slideInRight 0.8s ease-out 0.2s both;
         }
         
         nav ul {
@@ -107,6 +187,11 @@
         
         nav ul li {
             margin: 0;
+            transition: transform 0.3s;
+        }
+        
+        nav ul li:hover {
+            transform: translateY(-2px);
         }
         
         nav ul li a {
@@ -119,6 +204,24 @@
             font-size: 0.85rem;
             display: block;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background-color: white;
+            transition: all 0.3s;
+            transform: translateX(-50%);
+        }
+        
+        nav ul li a:hover::after {
+            width: 70%;
         }
         
         nav ul li a:hover {
@@ -126,34 +229,83 @@
         }
         
         .page-header {
-            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color)), url('https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1400&q=80');
+            background-size: cover;
+            background-position: center;
             color: white;
-            padding: 50px 0;
+            padding: 60px 0;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 1s ease-out;
+        }
+        
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.1) 0%, transparent 50%);
+            animation: float 15s infinite alternate ease-in-out;
         }
         
         .page-header h1 {
             font-size: 1.8rem;
             margin-bottom: 15px;
             line-height: 1.3;
+            animation: fadeIn 1s ease-out 0.3s both;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
         }
         
         .page-header p {
             font-size: 1rem;
             opacity: 0.9;
             padding: 0 10px;
+            animation: fadeIn 1s ease-out 0.5s both;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
         }
         
         .deposits-section {
             padding: 50px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .deposits-section::before {
+            content: '';
+            position: absolute;
+            top: 50px;
+            right: -100px;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(46, 134, 193, 0.05) 0%, transparent 70%);
+            animation: float 20s infinite alternate-reverse;
         }
         
         .calculator {
             background: white;
-            border-radius: 12px;
-            padding: 25px 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-            margin-bottom: 40px;
+            border-radius: 15px;
+            padding: 30px 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            margin-bottom: 50px;
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 1s ease-out;
+            z-index: 1;
+        }
+        
+        .calculator::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(to right, var(--money-green), var(--secondary-color), var(--accent-color));
+            background-size: 200% 100%;
+            animation: shimmer 3s infinite linear;
         }
         
         .calculator h2 {
@@ -161,6 +313,7 @@
             margin-bottom: 25px;
             text-align: center;
             font-size: 1.4rem;
+            animation: fadeIn 1s ease-out 0.2s both;
         }
         
         .calc-form {
@@ -171,7 +324,12 @@
         
         .form-group {
             margin-bottom: 18px;
+            animation: fadeIn 1s ease-out;
         }
+        
+        .form-group:nth-child(1) { animation-delay: 0.3s; }
+        .form-group:nth-child(2) { animation-delay: 0.4s; }
+        .form-group:nth-child(3) { animation-delay: 0.5s; }
         
         .form-group label {
             display: block;
@@ -182,109 +340,204 @@
         
         .form-control {
             width: 100%;
-            padding: 12px 15px;
+            padding: 14px 15px;
             border: 2px solid #ddd;
             border-radius: 8px;
             font-size: 1rem;
-            transition: border-color 0.3s;
+            transition: all 0.3s;
+            background: linear-gradient(90deg, #f8f9fa, white);
         }
         
         .form-control:focus {
             border-color: var(--secondary-color);
             outline: none;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(46, 134, 193, 0.2);
         }
         
         .calc-result {
-            background: var(--light-color);
-            border-radius: 10px;
+            background: linear-gradient(135deg, var(--light-color), #e3f2fd);
+            border-radius: 12px;
             padding: 25px 20px;
             text-align: center;
             margin-top: 20px;
+            animation: fadeIn 1s ease-out 0.6s both;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid transparent;
+            background-clip: padding-box;
+        }
+        
+        .calc-result::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--money-green), var(--secondary-color), var(--accent-color));
+            border-radius: inherit;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+        
+        .calc-result:hover::before {
+            opacity: 1;
         }
         
         .calc-result h3 {
             margin-bottom: 15px;
             font-size: 1.1rem;
+            color: var(--primary-color);
         }
         
         .result-amount {
-            font-size: 1.6rem;
+            font-size: 1.8rem;
             font-weight: bold;
             color: var(--money-green);
             margin: 15px 0;
-            padding: 15px;
+            padding: 20px;
             background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            animation: countUp 0.5s ease-out;
+        }
+        
+        .result-amount::after {
+            content: '💰';
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+            opacity: 0.5;
+        }
+        
+        .result-amount:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(39, 174, 96, 0.3);
+            animation: pulse 1s infinite;
         }
         
         .calc-result p {
             font-size: 0.95rem;
+            margin-top: 10px;
         }
         
         .deposit-options {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 20px;
+            gap: 25px;
+            margin-bottom: 40px;
         }
         
         .deposit-option {
             background: white;
-            border-radius: 12px;
-            padding: 25px 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border-radius: 15px;
+            padding: 30px 20px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
             text-align: center;
             position: relative;
-            transition: transform 0.3s;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: fadeIn 1s ease-out;
+            z-index: 1;
+        }
+        
+        .deposit-option:nth-child(1) { animation-delay: 0.1s; }
+        .deposit-option:nth-child(2) { animation-delay: 0.2s; }
+        .deposit-option:nth-child(3) { animation-delay: 0.3s; }
+        
+        .deposit-option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, transparent 30%, rgba(46, 134, 193, 0.05) 50%, transparent 70%);
+            background-size: 200% 200%;
+            animation: shimmer 4s infinite linear;
+            pointer-events: none;
+            z-index: -1;
         }
         
         .deposit-option:hover {
-            transform: translateY(-3px);
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
         }
         
         .deposit-badge {
             position: absolute;
-            top: -10px;
+            top: 15px;
             right: 15px;
-            background: var(--accent-color);
+            background: linear-gradient(45deg, var(--accent-color), #ff6b6b);
             color: white;
-            padding: 5px 12px;
-            border-radius: 12px;
+            padding: 6px 15px;
+            border-radius: 20px;
             font-size: 0.8rem;
             font-weight: bold;
+            animation: pulse 2s infinite;
+            box-shadow: 0 3px 10px rgba(231, 76, 60, 0.3);
         }
         
         .deposit-option h3 {
             color: var(--primary-color);
-            margin-bottom: 12px;
+            margin-bottom: 15px;
             font-size: 1.2rem;
+            transition: color 0.3s;
+        }
+        
+        .deposit-option:hover h3 {
+            color: var(--accent-color);
         }
         
         .interest-rate {
-            font-size: 2rem;
+            font-size: 2.2rem;
             font-weight: bold;
             color: var(--money-green);
-            margin: 15px 0;
+            margin: 20px 0;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+            position: relative;
+            display: inline-block;
+            animation: float 3s infinite ease-in-out;
+        }
+        
+        .interest-rate::after {
+            content: '% годовых';
+            font-size: 1rem;
+            color: var(--dark-color);
+            position: absolute;
+            right: -60px;
+            top: 50%;
+            transform: translateY(-50%);
         }
         
         .deposit-option p {
             font-size: 0.95rem;
             color: #666;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            line-height: 1.5;
         }
         
         .deposit-features {
             list-style: none;
-            margin: 20px 0;
+            margin: 25px 0;
+            text-align: left;
+            padding: 0 10px;
         }
         
         .deposit-features li {
-            padding: 8px 0;
-            border-bottom: 1px solid #eee;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
             font-size: 0.9rem;
             display: flex;
             align-items: center;
-            justify-content: center;
+            transition: transform 0.3s, padding-left 0.3s;
         }
         
         .deposit-features li:before {
@@ -293,70 +546,160 @@
             margin-right: 10px;
             font-weight: bold;
             flex-shrink: 0;
+            transition: transform 0.3s;
+        }
+        
+        .deposit-features li:hover {
+            transform: translateX(5px);
+            padding-left: 5px;
+        }
+        
+        .deposit-features li:hover:before {
+            transform: scale(1.3);
+            animation: bounce 0.5s;
         }
         
         .open-deposit-btn {
             display: inline-block;
-            background: var(--accent-color);
+            background: linear-gradient(45deg, var(--accent-color), #ff6b6b);
             color: white;
-            padding: 12px 25px;
-            border-radius: 25px;
+            padding: 14px 30px;
+            border-radius: 30px;
             text-decoration: none;
             font-weight: 600;
-            transition: all 0.3s;
+            transition: all 0.4s;
             font-size: 0.95rem;
             width: 100%;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+            z-index: 1;
+        }
+        
+        .open-deposit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+        
+        .open-deposit-btn:hover::before {
+            left: 100%;
         }
         
         .open-deposit-btn:hover {
-            background: var(--primary-color);
-            transform: translateY(-2px);
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 20px rgba(26, 82, 118, 0.3);
         }
         
         .advantages {
-            background: white;
-            border-radius: 12px;
-            padding: 25px 20px;
-            margin-top: 40px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 15px;
+            padding: 40px 25px;
+            margin-top: 50px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 1s ease-out 0.4s both;
+        }
+        
+        .advantages::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1%, transparent 20%);
+            animation: float 20s infinite linear;
         }
         
         .advantages h2 {
             color: var(--primary-color);
-            margin-bottom: 25px;
+            margin-bottom: 30px;
             text-align: center;
             font-size: 1.4rem;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .advantages h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(to right, var(--secondary-color), var(--money-green));
+            border-radius: 3px;
         }
         
         .advantages-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 20px;
+            gap: 25px;
+            position: relative;
+            z-index: 1;
         }
         
         .advantage-item {
             text-align: center;
-            padding: 20px 15px;
+            padding: 25px 15px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+            animation: fadeIn 1s ease-out;
+        }
+        
+        .advantage-item:nth-child(1) { animation-delay: 0.5s; }
+        .advantage-item:nth-child(2) { animation-delay: 0.6s; }
+        .advantage-item:nth-child(3) { animation-delay: 0.7s; }
+        .advantage-item:nth-child(4) { animation-delay: 0.8s; }
+        
+        .advantage-item:hover {
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.1);
         }
         
         .advantage-icon {
-            width: 60px;
-            height: 60px;
+            width: 70px;
+            height: 70px;
             background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 1.4rem;
-            margin: 0 auto 15px;
+            font-size: 1.6rem;
+            margin: 0 auto 20px;
+            transition: all 0.3s;
+            animation: float 4s infinite ease-in-out;
+        }
+        
+        .advantage-item:hover .advantage-icon {
+            background: linear-gradient(135deg, var(--money-green), var(--secondary-color));
+            animation: bounce 0.5s;
         }
         
         .advantage-item h4 {
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             font-size: 1.1rem;
             color: var(--primary-color);
+            transition: color 0.3s;
+        }
+        
+        .advantage-item:hover h4 {
+            color: var(--accent-color);
         }
         
         .advantage-item p {
@@ -370,6 +713,20 @@
             background: linear-gradient(to right, var(--primary-color), var(--dark-color));
             color: white;
             padding: 40px 0 20px;
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 1s ease-out;
+        }
+        
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(to right, var(--accent-color), var(--money-green), var(--secondary-color));
+            animation: shimmer 3s infinite linear;
         }
         
         .footer-content {
@@ -379,10 +736,37 @@
             margin-bottom: 25px;
         }
         
+        .footer-column {
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        .footer-column:nth-child(1) { animation-delay: 0.1s; }
+        .footer-column:nth-child(2) { animation-delay: 0.2s; }
+        .footer-column:nth-child(3) { animation-delay: 0.3s; }
+        .footer-column:nth-child(4) { animation-delay: 0.4s; }
+        
         .footer-column h3 {
             margin-bottom: 15px;
             color: var(--light-color);
             font-size: 1.2rem;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 30px;
+            height: 2px;
+            background-color: var(--accent-color);
+            transition: width 0.3s;
+        }
+        
+        .footer-column:hover h3::after {
+            width: 50px;
         }
         
         .footer-column p, .footer-column ul {
@@ -395,12 +779,17 @@
         
         .footer-column ul li {
             margin-bottom: 8px;
+            transition: transform 0.3s;
+        }
+        
+        .footer-column ul li:hover {
+            transform: translateX(5px);
         }
         
         .footer-column ul li a {
             color: #ccc;
             text-decoration: none;
-            transition: color 0.3s;
+            transition: all 0.3s;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -408,6 +797,15 @@
         
         .footer-column ul li a:hover {
             color: white;
+            gap: 12px;
+        }
+        
+        .footer-column ul li a i {
+            transition: transform 0.3s;
+        }
+        
+        .footer-column ul li a:hover i {
+            transform: scale(1.2);
         }
         
         .copyright {
@@ -416,6 +814,37 @@
             border-top: 1px solid rgba(255,255,255,0.1);
             color: #aaa;
             font-size: 0.8rem;
+            animation: fadeIn 1s ease-out 0.5s both;
+        }
+        
+        /* Анимация для денежных символов */
+        .money-float {
+            position: fixed;
+            font-size: 1.5rem;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 1000;
+            animation: moneyFloat 5s linear forwards;
+        }
+        
+        @keyframes moneyFloat {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Денежный дождь */
+        .money-rain {
+            position: absolute;
+            font-size: 1.2rem;
+            opacity: 0;
+            pointer-events: none;
+            animation: moneyRain 3s linear forwards;
         }
         
         /* Медиа-запросы для планшетов */
@@ -441,7 +870,7 @@
             }
             
             .page-header {
-                padding: 70px 0;
+                padding: 80px 0;
             }
             
             .page-header h1 {
@@ -470,28 +899,30 @@
             }
             
             .result-amount {
-                font-size: 2rem;
+                font-size: 2.5rem;
+                padding: 25px;
             }
             
             .deposit-options {
                 grid-template-columns: repeat(2, 1fr);
-                gap: 25px;
+                gap: 30px;
             }
             
             .deposit-option {
-                padding: 30px 25px;
+                padding: 35px 25px;
             }
             
             .interest-rate {
-                font-size: 2.5rem;
+                font-size: 2.8rem;
             }
             
             .open-deposit-btn {
                 width: auto;
+                padding: 14px 40px;
             }
             
             .advantages {
-                padding: 40px;
+                padding: 50px 40px;
             }
             
             .advantages h2 {
@@ -500,7 +931,7 @@
             
             .advantages-grid {
                 grid-template-columns: repeat(2, 1fr);
-                gap: 25px;
+                gap: 30px;
             }
             
             .footer-content {
@@ -524,12 +955,12 @@
             
             .deposit-options {
                 grid-template-columns: repeat(3, 1fr);
-                gap: 30px;
+                gap: 35px;
             }
             
             .advantages-grid {
                 grid-template-columns: repeat(4, 1fr);
-                gap: 30px;
+                gap: 35px;
             }
             
             .footer-content {
@@ -728,6 +1159,62 @@
 
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
     <script>
+        // Анимация "денежных" символов
+        function createMoneyAnimation(event) {
+            const symbols = ['', '', '', '', '', '', '', ''];
+            const symbol = symbols[Math.floor(Math.random() * symbols.length)];
+            
+            const moneyElement = document.createElement('div');
+            moneyElement.className = 'money-float';
+            moneyElement.textContent = symbol;
+            moneyElement.style.left = event.clientX + 'px';
+            moneyElement.style.top = event.clientY + 'px';
+            
+            document.body.appendChild(moneyElement);
+            
+            setTimeout(() => {
+                moneyElement.remove();
+            }, 5000);
+        }
+        
+        // Денежный дождь при расчете вклада
+        function createMoneyRain() {
+            const symbols = ['', '', '', '', ''];
+            for (let i = 0; i < 10; i++) {
+                setTimeout(() => {
+                    const symbol = symbols[Math.floor(Math.random() * symbols.length)];
+                    const moneyElement = document.createElement('div');
+                    moneyElement.className = 'money-rain';
+                    moneyElement.textContent = symbol;
+                    moneyElement.style.left = Math.random() * window.innerWidth + 'px';
+                    moneyElement.style.top = '-50px';
+                    moneyElement.style.color = i % 3 === 0 ? '#27ae60' : (i % 3 === 1 ? '#e74c3c' : '#2e86c1');
+                    
+                    document.body.appendChild(moneyElement);
+                    
+                    setTimeout(() => {
+                        moneyElement.remove();
+                    }, 3000);
+                }, i * 150);
+            }
+        }
+        
+        // Анимация счетчика
+        function animateCounter(element, start, end, duration) {
+            const range = end - start;
+            const increment = end > start ? 1 : -1;
+            const stepTime = Math.abs(Math.floor(duration / range));
+            let current = start;
+            
+            const timer = setInterval(() => {
+                current += increment;
+                element.textContent = current.toLocaleString() + ' ₽';
+                if (current == end) {
+                    clearInterval(timer);
+                }
+            }, stepTime);
+        }
+        
         function calculateDeposit() {
             const amount = parseInt(document.getElementById('deposit-amount').value);
             const term = parseInt(document.getElementById('deposit-term').value);
@@ -737,15 +1224,83 @@
             const totalAmount = amount * Math.pow(1 + monthlyRate, term);
             const income = totalAmount - amount;
             
-            document.getElementById('deposit-income').textContent = Math.round(income).toLocaleString() + ' ₽';
-            document.getElementById('total-amount').textContent = Math.round(totalAmount).toLocaleString() + ' ₽';
+            const incomeElement = document.getElementById('deposit-income');
+            const totalElement = document.getElementById('total-amount');
+            
+            // Анимация изменения чисел
+            const currentIncome = parseInt(incomeElement.textContent.replace(/[^0-9]/g, '')) || 0;
+            const currentTotal = parseInt(totalElement.textContent.replace(/[^0-9]/g, '')) || 0;
+            
+            animateCounter(incomeElement, currentIncome, Math.round(income), 500);
+            animateCounter(totalElement, currentTotal, Math.round(totalAmount), 500);
+            
+            // Создаем денежный дождь при значительном изменении
+            if (Math.abs(income - currentIncome) > 1000) {
+                createMoneyRain();
+            }
+            
+            // Анимация всплывающего элемента
+            incomeElement.style.animation = 'none';
+            setTimeout(() => {
+                incomeElement.style.animation = 'countUp 0.5s ease-out';
+            }, 10);
         }
-
-        document.getElementById('deposit-amount').addEventListener('input', calculateDeposit);
-        document.getElementById('deposit-term').addEventListener('input', calculateDeposit);
-        document.getElementById('interest-rate').addEventListener('input', calculateDeposit);
         
-        calculateDeposit();
+        // Добавляем анимацию денег на кнопки
+        const buttons = document.querySelectorAll('.open-deposit-btn');
+        buttons.forEach(button => {
+            button.addEventListener('mouseenter', createMoneyAnimation);
+        });
+        
+        // Добавляем анимацию на поля ввода
+        const inputs = document.querySelectorAll('.form-control');
+        inputs.forEach(input => {
+            input.addEventListener('input', function() {
+                this.style.transform = 'translateY(-2px)';
+                this.style.boxShadow = '0 4px 12px rgba(46, 134, 193, 0.3)';
+                
+                setTimeout(() => {
+                    this.style.transform = '';
+                    this.style.boxShadow = '';
+                }, 300);
+            });
+        });
+        
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', () => {
+            // Анимация элементов при загрузке
+            document.querySelectorAll('.deposit-option, .advantage-item, .form-group').forEach((el, index) => {
+                el.style.animationDelay = `${0.1 * index}s`;
+            });
+            
+            // Плавное появление элементов при прокрутке
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animationPlayState = 'running';
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+            
+            document.querySelectorAll('.deposit-option, .advantage-item, .calculator').forEach(el => {
+                el.style.animationPlayState = 'paused';
+                observer.observe(el);
+            });
+            
+            // Привязка событий к полям ввода
+            document.getElementById('deposit-amount').addEventListener('input', calculateDeposit);
+            document.getElementById('deposit-term').addEventListener('input', calculateDeposit);
+            document.getElementById('interest-rate').addEventListener('input', calculateDeposit);
+            
+            // Первоначальный расчет
+            calculateDeposit();
+        });
     </script>
 </body>
 </html>
