@@ -13,6 +13,10 @@
             --light-color: #ebf5fb;
             --dark-color: #154360;
             --money-green: #27ae60;
+            --card-color-1: #3498db;
+            --card-color-2: #9b59b6;
+            --card-color-3: #2ecc71;
+            --card-color-4: #f39c12;
         }
         
         * {
@@ -36,17 +40,99 @@
             padding: 0 15px;
         }
         
-        /* Мобильный хедер */
+        /* Анимации */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+        
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        
+        @keyframes moneyFloat {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes cardShine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(200%) rotate(45deg); }
+        }
+        
+        @keyframes colorShift {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+        
+        /* Мобильный хедер с анимацией */
         header {
             background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
             padding: 15px 0;
             box-shadow: 0 2px 15px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+            background-size: 200% 100%;
+            animation: shimmer 3s infinite linear;
+            pointer-events: none;
         }
         
         .header-content {
             display: flex;
             flex-direction: column;
             align-items: center;
+            position: relative;
+            z-index: 1;
         }
         
         .logo {
@@ -54,6 +140,7 @@
             align-items: center;
             margin-bottom: 15px;
             text-align: center;
+            animation: slideInLeft 0.8s ease-out;
         }
         
         .logo-icon {
@@ -69,6 +156,11 @@
             overflow: hidden;
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
             flex-shrink: 0;
+            animation: pulse 2s infinite;
+        }
+        
+        .logo-icon:hover {
+            animation: rotate 1s ease-in-out;
         }
         
         .logo-icon img {
@@ -81,6 +173,7 @@
         .logo-text h1 {
             font-size: 1.5rem;
             color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
             line-height: 1.2;
         }
         
@@ -88,13 +181,15 @@
             font-size: 0.8rem;
             color: var(--light-color);
             font-style: italic;
+            opacity: 0.9;
             display: block;
             margin-top: 3px;
         }
         
-        /* Мобильная навигация */
+        /* Мобильная навигация с анимацией */
         nav {
             width: 100%;
+            animation: slideInRight 0.8s ease-out 0.2s both;
         }
         
         nav ul {
@@ -107,6 +202,11 @@
         
         nav ul li {
             margin: 0;
+            transition: transform 0.3s;
+        }
+        
+        nav ul li:hover {
+            transform: translateY(-2px);
         }
         
         nav ul li a {
@@ -119,6 +219,24 @@
             font-size: 0.85rem;
             display: block;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background-color: white;
+            transition: all 0.3s;
+            transform: translateX(-50%);
+        }
+        
+        nav ul li a:hover::after {
+            width: 70%;
         }
         
         nav ul li a:hover {
@@ -126,75 +244,249 @@
         }
         
         .page-header {
-            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            background: linear-gradient(135deg, rgba(46, 134, 193, 0.9), rgba(26, 82, 118, 0.9)), 
+                        url('https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1400&q=80');
+            background-size: cover;
+            background-position: center;
             color: white;
-            padding: 50px 0;
+            padding: 60px 0;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 1s ease-out;
+        }
+        
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.15) 1%, transparent 20%);
+            animation: float 20s infinite linear;
         }
         
         .page-header h1 {
             font-size: 1.8rem;
             margin-bottom: 15px;
             line-height: 1.3;
+            animation: fadeIn 1s ease-out 0.3s both;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
         }
         
         .page-header p {
             font-size: 1rem;
             opacity: 0.9;
             padding: 0 10px;
+            animation: fadeIn 1s ease-out 0.5s both;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
         }
         
         .products-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 20px;
-            padding: 50px 0;
+            gap: 25px;
+            padding: 60px 0;
+            position: relative;
+        }
+        
+        .products-grid::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 80%, rgba(46, 134, 193, 0.05) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(231, 76, 60, 0.05) 0%, transparent 50%);
+            pointer-events: none;
         }
         
         .product-card {
             background: white;
-            border-radius: 12px;
-            padding: 25px 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-            transition: transform 0.3s;
+            border-radius: 20px;
+            padding: 30px 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: fadeIn 0.8s ease-out;
+            position: relative;
+            overflow: hidden;
+            border: 3px solid transparent;
+            z-index: 1;
+        }
+        
+        .product-card:nth-child(1) { 
+            animation-delay: 0.1s; 
+            border-top: 5px solid var(--card-color-1);
+        }
+        .product-card:nth-child(2) { 
+            animation-delay: 0.2s;
+            border-top: 5px solid var(--card-color-2);
+        }
+        .product-card:nth-child(3) { 
+            animation-delay: 0.3s;
+            border-top: 5px solid var(--card-color-3);
+        }
+        .product-card:nth-child(4) { 
+            animation-delay: 0.4s;
+            border-top: 5px solid var(--card-color-4);
+        }
+        
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, 
+                var(--card-color-1), 
+                var(--card-color-2), 
+                var(--card-color-3), 
+                var(--card-color-4));
+            background-size: 300% 100%;
+            animation: shimmer 3s infinite linear;
+            z-index: 2;
+        }
+        
+        .product-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent 30%,
+                rgba(255, 255, 255, 0.1) 50%,
+                transparent 70%
+            );
+            transform: translateX(-100%) rotate(45deg);
+            transition: transform 0.6s;
+            z-index: 1;
+        }
+        
+        .product-card:hover::after {
+            transform: translateX(100%) rotate(45deg);
         }
         
         .product-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-15px) scale(1.03);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            border-color: rgba(0,0,0,0.1);
+        }
+        
+        .product-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            animation: float 3s infinite ease-in-out;
+        }
+        
+        .product-card:nth-child(1) .product-icon {
+            background: linear-gradient(135deg, var(--card-color-1), #2980b9);
+        }
+        .product-card:nth-child(2) .product-icon {
+            background: linear-gradient(135deg, var(--card-color-2), #8e44ad);
+        }
+        .product-card:nth-child(3) .product-icon {
+            background: linear-gradient(135deg, var(--card-color-3), #27ae60);
+        }
+        .product-card:nth-child(4) .product-icon {
+            background: linear-gradient(135deg, var(--card-color-4), #d35400);
+        }
+        
+        .product-card:hover .product-icon {
+            animation: rotate 1s ease-in-out, pulse 2s infinite;
         }
         
         .product-card h3 {
+            color: var(--dark-color);
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+            transition: all 0.3s;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 8px;
+        }
+        
+        .product-card h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: linear-gradient(to right, var(--card-color-1), var(--card-color-4));
+            transition: width 0.3s;
+        }
+        
+        .product-card:hover h3::after {
+            width: 80px;
+        }
+        
+        .product-card:hover h3 {
             color: var(--primary-color);
-            margin-bottom: 12px;
-            font-size: 1.2rem;
+            transform: translateX(5px);
         }
         
         .product-card p {
             font-size: 0.95rem;
             color: #666;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             line-height: 1.5;
+            transition: color 0.3s;
+        }
+        
+        .product-card:hover p {
+            color: #444;
         }
         
         .product-features {
             list-style: none;
-            margin: 20px 0;
+            margin: 25px 0;
         }
         
         .product-features li {
-            padding: 8px 0;
-            border-bottom: 1px solid #eee;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
             font-size: 0.9rem;
             display: flex;
             align-items: center;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .product-features li:hover {
+            transform: translateX(10px);
+            background: linear-gradient(90deg, rgba(0,0,0,0.02), transparent);
+            border-radius: 5px;
+            padding-left: 15px;
         }
         
         .product-features li:before {
             content: "✓";
             color: var(--money-green);
-            margin-right: 10px;
+            margin-right: 12px;
             font-weight: bold;
             flex-shrink: 0;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+        }
+        
+        .product-features li:hover:before {
+            transform: scale(1.3) rotate(10deg);
+            color: var(--accent-color);
         }
         
         .product-features li:last-child {
@@ -203,41 +495,104 @@
         
         .product-button {
             display: inline-block;
-            background: var(--accent-color);
+            background: linear-gradient(135deg, var(--accent-color), #ff6b6b);
             color: white;
-            padding: 12px 25px;
-            border-radius: 25px;
+            padding: 14px 30px;
+            border-radius: 30px;
             text-decoration: none;
             font-weight: 600;
-            transition: all 0.3s;
+            transition: all 0.4s;
             font-size: 0.95rem;
             width: 100%;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(231, 76, 60, 0.3);
+            z-index: 1;
+        }
+        
+        .product-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+            z-index: -1;
+        }
+        
+        .product-button:hover::before {
+            left: 100%;
         }
         
         .product-button:hover {
-            background: var(--primary-color);
-            transform: translateY(-2px);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            letter-spacing: 0.5px;
         }
         
         /* Футер для мобильных */
         footer {
             background: linear-gradient(to right, var(--primary-color), var(--dark-color));
             color: white;
-            padding: 40px 0 20px;
+            padding: 50px 0 20px;
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 1s ease-out;
+        }
+        
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(to right, var(--accent-color), var(--money-green), var(--secondary-color));
+            animation: shimmer 3s infinite linear;
         }
         
         .footer-content {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 25px;
+            gap: 30px;
             margin-bottom: 25px;
         }
+        
+        .footer-column {
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        .footer-column:nth-child(1) { animation-delay: 0.1s; }
+        .footer-column:nth-child(2) { animation-delay: 0.2s; }
+        .footer-column:nth-child(3) { animation-delay: 0.3s; }
+        .footer-column:nth-child(4) { animation-delay: 0.4s; }
         
         .footer-column h3 {
             margin-bottom: 15px;
             color: var(--light-color);
             font-size: 1.2rem;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 30px;
+            height: 2px;
+            background-color: var(--accent-color);
+            transition: width 0.3s;
+        }
+        
+        .footer-column:hover h3::after {
+            width: 50px;
         }
         
         .footer-column p, .footer-column ul {
@@ -249,20 +604,35 @@
         }
         
         .footer-column ul li {
-            margin-bottom: 8px;
+            margin-bottom: 12px;
+            transition: transform 0.3s;
+        }
+        
+        .footer-column ul li:hover {
+            transform: translateX(5px);
         }
         
         .footer-column ul li a {
             color: #ccc;
             text-decoration: none;
-            transition: color 0.3s;
+            transition: all 0.3s;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 12px;
         }
         
         .footer-column ul li a:hover {
             color: white;
+            gap: 15px;
+        }
+        
+        .footer-column ul li a i {
+            transition: transform 0.3s;
+            font-size: 1.1rem;
+        }
+        
+        .footer-column ul li a:hover i {
+            transform: scale(1.3) rotate(5deg);
         }
         
         .copyright {
@@ -271,6 +641,32 @@
             border-top: 1px solid rgba(255,255,255,0.1);
             color: #aaa;
             font-size: 0.8rem;
+            animation: fadeIn 1s ease-out 0.5s both;
+        }
+        
+        /* Анимация для денежных символов */
+        .money-float {
+            position: fixed;
+            font-size: 1.5rem;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 1000;
+            animation: moneyFloat 5s linear forwards;
+        }
+        
+        /* Эффект параллакса для продуктов */
+        .parallax-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(46, 134, 193, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(231, 76, 60, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 50% 50%, rgba(39, 174, 96, 0.05) 0%, transparent 30%);
+            animation: float 20s infinite linear;
+            pointer-events: none;
         }
         
         /* Медиа-запросы для планшетов */
@@ -296,7 +692,7 @@
             }
             
             .page-header {
-                padding: 70px 0;
+                padding: 80px 0;
             }
             
             .page-header h1 {
@@ -309,20 +705,21 @@
             
             .products-grid {
                 grid-template-columns: repeat(2, 1fr);
-                gap: 25px;
-                padding: 70px 0;
+                gap: 30px;
+                padding: 80px 0;
             }
             
             .product-card {
-                padding: 30px 25px;
+                padding: 35px 30px;
             }
             
             .product-card h3 {
-                font-size: 1.4rem;
+                font-size: 1.5rem;
             }
             
             .product-button {
                 width: auto;
+                padding: 14px 35px;
             }
             
             .footer-content {
@@ -346,11 +743,17 @@
             
             .products-grid {
                 grid-template-columns: repeat(2, 1fr);
-                gap: 30px;
+                gap: 40px;
             }
             
             .product-card h3 {
-                font-size: 1.5rem;
+                font-size: 1.6rem;
+            }
+            
+            .product-icon {
+                width: 70px;
+                height: 70px;
+                font-size: 2rem;
             }
             
             .footer-content {
@@ -401,8 +804,12 @@
     </section>
 
     <section class="products-grid">
+        <div class="parallax-bg"></div>
         <div class="container">
             <div class="product-card">
+                <div class="product-icon">
+                    <i class="fas fa-credit-card"></i>
+                </div>
                 <h3>Кредитная карта "Акула"</h3>
                 <p>Идеальное решение для повседневных трат и непредвиденных расходов</p>
                 <ul class="product-features">
@@ -416,6 +823,9 @@
             </div>
 
             <div class="product-card">
+                <div class="product-icon">
+                    <i class="fas fa-hand-holding-usd"></i>
+                </div>
                 <h3>Займ "На каблуке"</h3>
                 <p>Срочные деньги без лишних вопросов и проверок</p>
                 <ul class="product-features">
@@ -429,6 +839,9 @@
             </div>
 
             <div class="product-card">
+                <div class="product-icon">
+                    <i class="fas fa-home"></i>
+                </div>
                 <h3>Ипотека "От родителей"</h3>
                 <p>Собственное жилье без подтверждения дохода</p>
                 <ul class="product-features">
@@ -442,6 +855,9 @@
             </div>
 
             <div class="product-card">
+                <div class="product-icon">
+                    <i class="fas fa-piggy-bank"></i>
+                </div>
                 <h3>Вклад "Бабушкины сбережения"</h3>
                 <p>Надежное хранение и приумножение ваших средств</p>
                 <ul class="product-features">
@@ -495,5 +911,167 @@
             </div>
         </div>
     </footer>
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+    <script>
+        // Анимация "денежных" символов
+        function createMoneyAnimation(event) {
+            const symbols = ['', '', '', '', '', '', '', ''];
+            const symbol = symbols[Math.floor(Math.random() * symbols.length)];
+            
+            const moneyElement = document.createElement('div');
+            moneyElement.className = 'money-float';
+            moneyElement.textContent = symbol;
+            moneyElement.style.left = event.clientX + 'px';
+            moneyElement.style.top = event.clientY + 'px';
+            moneyElement.style.fontSize = Math.random() * 20 + 20 + 'px';
+            
+            document.body.appendChild(moneyElement);
+            
+            setTimeout(() => {
+                moneyElement.remove();
+            }, 5000);
+        }
+        
+        // Добавляем анимацию денег на все кнопки продуктов
+        const productButtons = document.querySelectorAll('.product-button');
+        productButtons.forEach(button => {
+            button.addEventListener('mouseenter', createMoneyAnimation);
+            
+            // Дополнительная анимация при клике
+            button.addEventListener('click', function(e) {
+                if (!this.href.includes('#')) {
+                    e.preventDefault();
+                    
+                    // Визуальная анимация нажатия
+                    this.style.transform = 'scale(0.95)';
+                    this.style.background = 'linear-gradient(135deg, #27ae60, #2ecc71)';
+                    
+                    // Создаем "взрыв" денег
+                    for (let i = 0; i < 10; i++) {
+                        setTimeout(() => {
+                            createMoneyAnimation({
+                                clientX: e.clientX + (Math.random() * 100 - 50),
+                                clientY: e.clientY + (Math.random() * 100 - 50)
+                            });
+                        }, i * 50);
+                    }
+                    
+                    // Возвращаем кнопку в исходное состояние
+                    setTimeout(() => {
+                        this.style.transform = '';
+                        this.style.background = '';
+                        
+                        // Переход на страницу
+                        setTimeout(() => {
+                            window.location.href = this.href;
+                        }, 300);
+                    }, 800);
+                }
+            });
+        });
+        
+        // Анимация карточек при наведении
+        const productCards = document.querySelectorAll('.product-card');
+        productCards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.zIndex = '10';
+                
+                // Создаем легкую денежную анимацию
+                if (Math.random() > 0.5) {
+                    const moneyElement = document.createElement('div');
+                    moneyElement.className = 'money-float';
+                    moneyElement.textContent = '💵';
+                    moneyElement.style.left = Math.random() * this.offsetWidth + 'px';
+                    moneyElement.style.top = this.offsetTop + 'px';
+                    moneyElement.style.fontSize = '20px';
+                    moneyElement.style.position = 'absolute';
+                    
+                    this.appendChild(moneyElement);
+                    
+                    setTimeout(() => {
+                        moneyElement.remove();
+                    }, 3000);
+                }
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.zIndex = '1';
+            });
+        });
+        
+        // Анимация элементов списка при загрузке
+        document.addEventListener('DOMContentLoaded', () => {
+            // Плавное появление элементов при прокрутке
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animationPlayState = 'running';
+                        
+                        // Анимация для элементов списка внутри карточки
+                        if (entry.target.classList.contains('product-card')) {
+                            const listItems = entry.target.querySelectorAll('.product-features li');
+                            listItems.forEach((item, index) => {
+                                item.style.animationDelay = `${index * 0.1}s`;
+                                item.style.animation = 'fadeIn 0.5s ease-out forwards';
+                            });
+                        }
+                        
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+            
+            // Наблюдаем за карточками продуктов
+            productCards.forEach(card => {
+                card.style.animationPlayState = 'paused';
+                observer.observe(card);
+            });
+            
+            // Автоматическая анимация иконок
+            const productIcons = document.querySelectorAll('.product-icon');
+            productIcons.forEach((icon, index) => {
+                icon.style.animationDelay = `${index * 0.2}s`;
+            });
+            
+            // Параллакс эффект для фона
+            window.addEventListener('scroll', function() {
+                const parallaxBg = document.querySelector('.parallax-bg');
+                const scrollY = window.scrollY;
+                
+                if (parallaxBg) {
+                    parallaxBg.style.transform = `translateY(${scrollY * 0.1}px)`;
+                }
+            });
+            
+            // Случайные денежные анимации на странице
+            function createRandomMoneyAnimation() {
+                if (Math.random() > 0.7) {
+                    const moneyElement = document.createElement('div');
+                    moneyElement.className = 'money-float';
+                    moneyElement.textContent = Math.random() > 0.5 ? '💸' : '💰';
+                    moneyElement.style.left = Math.random() * window.innerWidth + 'px';
+                    moneyElement.style.top = window.innerHeight + 'px';
+                    moneyElement.style.fontSize = Math.random() * 30 + 20 + 'px';
+                    
+                    document.body.appendChild(moneyElement);
+                    
+                    setTimeout(() => {
+                        moneyElement.remove();
+                    }, 5000);
+                }
+                
+                setTimeout(createRandomMoneyAnimation, Math.random() * 5000 + 2000);
+            }
+            
+            // Запускаем случайные анимации
+            setTimeout(createRandomMoneyAnimation, 3000);
+        });
+    </script>
+</body>
 </html>
