@@ -1194,7 +1194,7 @@
     <script>
         // Анимация "денежных" символов
         function createMoneyAnimation(event) {
-            const symbols = ['💰', '💸', '💎', '🪙', '💳', '💵', '💶', '💷', '💴'];
+            const symbols = ['', '', '', '', '', '', '', '', ''];
             const symbol = symbols[Math.floor(Math.random() * symbols.length)];
             
             const moneyElement = document.createElement('div');
@@ -1214,7 +1214,7 @@
         // Создание конфетти
         function createConfetti(count = 50) {
             const colors = ['#e74c3c', '#2e86c1', '#27ae60', '#f39c12', '#9b59b6', '#1abc9c'];
-            const symbols = ['💰', '💸', '💎', '🪙', '💳', '💵', '💴'];
+            const symbols = ['', '', '', '', '', '', ''];
             
             for (let i = 0; i < count; i++) {
                 setTimeout(() => {
