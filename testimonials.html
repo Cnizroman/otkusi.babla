@@ -115,6 +115,11 @@
             100% { box-shadow: 0 0 0 0 rgba(46, 134, 193, 0); }
         }
         
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-50px) scale(0.9); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        
         /* Мобильный хедер с анимацией */
         header {
             background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
@@ -347,7 +352,7 @@
         .testimonial-card:nth-child(4) { animation-delay: 0.4s; }
         
         .testimonial-card::before {
-            content: """;
+            content: """
             position absolute;
             top: 20px;
             left: 20px;
@@ -586,6 +591,195 @@
             color: var(--primary-color);
         }
         
+        /* Стили для модального окна */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: modalFadeIn 0.3s ease-out;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 30px;
+            cursor: pointer;
+            color: var(--primary-color);
+            transition: all 0.3s;
+        }
+        
+        .close-modal:hover {
+            color: var(--accent-color);
+            transform: scale(1.2);
+        }
+        
+        .modal-content h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        
+        .modal-content .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .modal-content label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--primary-color);
+        }
+        
+        .modal-content .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            background: linear-gradient(90deg, #f8f9fa, white);
+        }
+        
+        .modal-content .form-control:focus {
+            border-color: var(--secondary-color);
+            outline: none;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(46, 134, 193, 0.2);
+        }
+        
+        .review-rating {
+            display: flex;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        
+        .review-star {
+            font-size: 2rem;
+            color: #ddd;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .review-star:hover,
+        .review-star.active {
+            color: var(--star-gold);
+            text-shadow: 0 0 10px rgba(255,215,0,0.5);
+            transform: scale(1.2);
+        }
+        
+        .review-star:hover ~ .review-star {
+            color: #ddd;
+        }
+        
+        /* Кнопка добавления отзыва */
+        .add-review-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(45deg, var(--accent-color), #ff6b6b);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(231,76,60,0.4);
+            z-index: 1000;
+            animation: pulse 2s infinite;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .add-review-btn:hover {
+            transform: scale(1.1) rotate(10deg);
+            box-shadow: 0 8px 25px rgba(231,76,60,0.5);
+        }
+        
+        /* Сообщение об успешном добавлении */
+        #review-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(45deg, #27ae60, #2ecc71);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            display: none;
+            z-index: 2001;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        /* Кнопка удаления отзыва */
+        .delete-review {
+            margin-left: auto;
+            background: none;
+            border: none;
+            color: #ccc;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+            padding: 5px;
+        }
+        
+        .delete-review:hover {
+            color: var(--accent-color);
+            transform: scale(1.2);
+        }
+        
+        /* Конфетти */
+        .confetti {
+            position: fixed;
+            width: 15px;
+            height: 15px;
+            pointer-events: none;
+            z-index: 1000;
+            animation: confettiRain 3s linear forwards;
+        }
+        
+        @keyframes confettiRain {
+            0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+        
+        /* Эффект для отзывов */
+        .review-highlight {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s;
+            pointer-events: none;
+        }
+        
+        .testimonial-card:hover .review-highlight {
+            transform: translateX(100%);
+        }
+        
         /* Футер для мобильных */
         footer {
             background: linear-gradient(to right, var(--primary-color), var(--dark-color));
@@ -695,33 +889,6 @@
             animation: fadeIn 1s ease-out 0.5s both;
         }
         
-        /* Анимация для денежных символов */
-        .money-float {
-            position: fixed;
-            font-size: 1.5rem;
-            opacity: 0;
-            pointer-events: none;
-            z-index: 1000;
-            animation: moneyFloat 5s linear forwards;
-        }
-        
-        /* Эффект для отзывов */
-        .review-highlight {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
-            transform: translateX(-100%);
-            transition: transform 0.6s;
-            pointer-events: none;
-        }
-        
-        .testimonial-card:hover .review-highlight {
-            transform: translateX(100%);
-        }
-        
         /* Медиа-запросы для планшетов */
         @media (min-width: 768px) {
             .header-content {
@@ -791,6 +958,10 @@
             .footer-content {
                 grid-template-columns: repeat(2, 1fr);
             }
+            
+            .modal-content {
+                padding: 40px;
+            }
         }
         
         /* Медиа-запросы для десктопов */
@@ -810,10 +981,6 @@
             .testimonials-grid {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 40px;
-            }
-            
-            .testimonial-card h3 {
-                font-size: 1.6rem;
             }
             
             .author-avatar {
@@ -869,89 +1036,7 @@
     <section class="testimonials-section">
         <div class="container">
             <div class="testimonials-grid">
-                <div class="testimonial-card">
-                    <div class="review-highlight"></div>
-                    <div class="rating">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <div class="testimonial-text">
-                        "Наконец-то смог купить новый айфон, не выпрашивая деньги у родителей. Спасибо, 'Откуси Бабла'! Теперь я финансово беден, зато с крутым телефоном!"
-                    </div>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">К</div>
-                        <div class="author-info">
-                            <h4>Кирилл, 19 лет</h4>
-                            <p>Студент</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="testimonial-card">
-                    <div class="review-highlight"></div>
-                    <div class="rating">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <div class="testimonial-text">
-                        "Оформила кредитку за 10 минут, пока ехала в метро. Теперь у меня есть свои деньги на развлечения! Отличный сервис для студентов, рекомендую всем подругам."
-                    </div>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">С</div>
-                        <div class="author-info">
-                            <h4>Соня, 21 год</h4>
-                            <p>Студентка</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="testimonial-card">
-                    <div class="review-highlight"></div>
-                    <div class="rating">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                    </div>
-                    <div class="testimonial-text">
-                        "Взял займ на подарок девушке. Одобрили без вопросов о работе. Деньги пришли вовремя! Теперь у меня нет девушки. Рекомендую всем!"
-                    </div>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">Р</div>
-                        <div class="author-info">
-                            <h4>Клим, 18 лет</h4>
-                            <p>Школьник</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="testimonial-card">
-                    <div class="review-highlight"></div>
-                    <div class="rating">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <div class="testimonial-text">
-                        "Брал деньги на путешествие с друзьями. Все прошло быстро и без проблем. Единственный минус - теперь нужно работать, чтобы отдать. Но это мелочи!"
-                    </div>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">М</div>
-                        <div class="author-info">
-                            <h4>Роман, 20 лет</h4>
-                            <p>Путешественник</p>
-                        </div>
-                    </div>
-                </div>
+                <!-- Отзывы будут добавляться сюда динамически -->
             </div>
 
             <div class="stats-bar">
@@ -973,6 +1058,63 @@
             </div>
         </div>
     </section>
+
+    <!-- Модальное окно для добавления отзыва -->
+    <div id="add-review-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            
+            <h2>Оставить свой отзыв</h2>
+            
+            <form id="new-review-form">
+                <div class="form-group">
+                    <label for="review-name">Ваше имя</label>
+                    <input type="text" id="review-name" name="name" class="form-control" required placeholder="Как к вам обращаться?">
+                </div>
+                
+                <div class="form-group">
+                    <label for="review-age">Возраст</label>
+                    <input type="number" id="review-age" name="age" class="form-control" required min="10" max="99" placeholder="Ваш возраст">
+                </div>
+                
+                <div class="form-group">
+                    <label for="review-role">Род занятий</label>
+                    <input type="text" id="review-role" name="role" class="form-control" required placeholder="Студент, школьник, и т.д.">
+                </div>
+                
+                <div class="form-group">
+                    <label>Ваша оценка</label>
+                    <div class="review-rating">
+                        <span class="review-star" data-value="1">★</span>
+                        <span class="review-star" data-value="2">★</span>
+                        <span class="review-star" data-value="3">★</span>
+                        <span class="review-star" data-value="4">★</span>
+                        <span class="review-star" data-value="5">★</span>
+                    </div>
+                    <input type="hidden" id="review-rating" name="rating" value="5">
+                </div>
+                
+                <div class="form-group">
+                    <label for="review-text">Ваш отзыв</label>
+                    <textarea id="review-text" name="text" class="form-control" required placeholder="Поделитесь вашим опытом..." rows="5"></textarea>
+                </div>
+                
+                <button type="submit" class="submit-btn" style="background:linear-gradient(45deg, var(--money-green), #2ecc71); width: 100%; padding: 15px; border: none; border-radius: 30px; color: white; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s;">
+                    <i class="fas fa-plus-circle"></i> Добавить отзыв
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Кнопка добавления отзыва -->
+    <div class="add-review-btn">
+        <i class="fas fa-comment-medical"></i>
+    </div>
+
+    <!-- Сообщение об успешном добавлении -->
+    <div id="review-message">
+        <i class="fas fa-check-circle"></i> Ваш отзыв добавлен!
+    </div>
 
     <footer>
         <div class="container">
@@ -1025,61 +1167,405 @@
             }, 4000);
         }
         
-        // Добавляем анимацию звезд на карточки отзывов
-        const testimonialCards = document.querySelectorAll('.testimonial-card');
-        testimonialCards.forEach(card => {
-            card.addEventListener('mouseenter', createReviewAnimation);
+        // Функция создания конфетти
+        function createConfetti(count = 50) {
+            const colors = ['#e74c3c', '#2e86c1', '#27ae60', '#f39c12', '#9b59b6', '#1abc9c'];
             
-            // Дополнительная анимация при клике
-            card.addEventListener('click', function(e) {
-                // Создаем "взрыв" звезд
-                for (let i = 0; i < 8; i++) {
-                    setTimeout(() => {
-                        createReviewAnimation({
-                            clientX: e.clientX + (Math.random() * 100 - 50),
-                            clientY: e.clientY + (Math.random() * 100 - 50)
-                        });
-                    }, i * 50);
-                }
-                
-                // Подсветка карточки
-                this.style.boxShadow = '0 0 30px rgba(255, 215, 0, 0.5)';
+            for (let i = 0; i < count; i++) {
                 setTimeout(() => {
-                    this.style.boxShadow = '';
-                }, 1000);
-            });
-        });
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.color = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.left = Math.random() * window.innerWidth + 'px';
+                    confetti.style.fontSize = Math.random() * 20 + 10 + 'px';
+                    confetti.style.opacity = '0.8';
+                    
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => {
+                        confetti.remove();
+                    }, 3000);
+                }, i * 30);
+            }
+        }
         
-        // Анимация звезд в рейтингах
-        const stars = document.querySelectorAll('.rating i');
-        stars.forEach(star => {
-            star.addEventListener('mouseenter', function() {
-                this.style.transform = 'scale(1.3) rotate(10deg)';
-                this.style.color = '#ffed4e';
+        // Анимация "денежных" символов
+        function createMoneyAnimation(event) {
+            const symbols = ['', '', '', '', '', '', '', '', ''];
+            const symbol = symbols[Math.floor(Math.random() * symbols.length)];
+            
+            const moneyElement = document.createElement('div');
+            moneyElement.className = 'money-float';
+            moneyElement.textContent = symbol;
+            moneyElement.style.left = event.clientX + 'px';
+            moneyElement.style.top = event.clientY + 'px';
+            moneyElement.style.fontSize = Math.random() * 20 + 20 + 'px';
+            
+            document.body.appendChild(moneyElement);
+            
+            setTimeout(() => {
+                moneyElement.remove();
+            }, 5000);
+        }
+        
+        // Функционал добавления отзыва
+        document.addEventListener('DOMContentLoaded', function() {
+            const addReviewBtn = document.querySelector('.add-review-btn');
+            const modal = document.getElementById('add-review-modal');
+            const closeModal = document.querySelector('.close-modal');
+            const reviewForm = document.getElementById('new-review-form');
+            const reviewStars = document.querySelectorAll('.review-star');
+            const reviewRatingInput = document.getElementById('review-rating');
+            const reviewMessage = document.getElementById('review-message');
+            const testimonialsGrid = document.querySelector('.testimonials-grid');
+            
+            // Предустановленные отзывы
+            const defaultReviews = [
+                {
+                    id: 1,
+                    name: "Кирилл",
+                    age: "19",
+                    role: "Студент",
+                    rating: 5,
+                    text: "Наконец-то смог купить новый айфон, не выпрашивая деньги у родителей. Спасибо, 'Откуси Бабла'! Теперь я финансово беден, зато с крутым телефоном!",
+                    date: "15.03.2025"
+                },
+                {
+                    id: 2,
+                    name: "Соня",
+                    age: "21",
+                    role: "Студентка",
+                    rating: 5,
+                    text: "Оформила кредитку за 10 минут, пока ехала в метро. Теперь у меня есть свои деньги на развлечения! Отличный сервис для студентов, рекомендую всем подругам.",
+                    date: "10.03.2025"
+                },
+                {
+                    id: 3,
+                    name: "Клим",
+                    age: "18",
+                    role: "Школьник",
+                    rating: 4,
+                    text: "Взял займ на подарок девушке. Одобрили без вопросов о работе. Деньги пришли вовремя! Теперь у меня нет девушки. Рекомендую всем!",
+                    date: "05.03.2025"
+                },
+                {
+                    id: 4,
+                    name: "Роман",
+                    age: "20",
+                    role: "Путешественник",
+                    rating: 5,
+                    text: "Брал деньги на путешествие с друзьями. Все прошло быстро и без проблем. Единственный минус - теперь нужно работать, чтобы отдать. Но это мелочи!",
+                    date: "01.03.2025"
+                }
+            ];
+            
+            // Инициализация отзывов
+            initReviews();
+            
+            // Загрузка отзывов из localStorage
+            function loadUserReviews() {
+                let reviews = JSON.parse(localStorage.getItem('userReviews')) || [];
+                reviews.forEach(review => {
+                    addReviewToPage(review);
+                });
+            }
+            
+            // Инициализация отзывов
+            function initReviews() {
+                // Сначала загружаем пользовательские отзывы
+                loadUserReviews();
                 
-                // Анимация соседних звезд
-                let sibling = this;
-                while (sibling = sibling.previousElementSibling) {
-                    sibling.style.transform = 'scale(1.2)';
-                    sibling.style.color = '#ffed4e';
+                // Затем добавляем предустановленные (если их еще нет)
+                defaultReviews.forEach(review => {
+                    // Проверяем, есть ли уже такой отзыв
+                    const existingReviews = JSON.parse(localStorage.getItem('allReviews')) || [];
+                    const reviewExists = existingReviews.some(r => r.id === review.id);
+                    
+                    if (!reviewExists) {
+                        addReviewToPage(review);
+                        // Сохраняем в общий список
+                        existingReviews.push(review);
+                        localStorage.setItem('allReviews', JSON.stringify(existingReviews));
+                    }
+                });
+            }
+            
+            // Открытие модального окна
+            addReviewBtn.addEventListener('click', function() {
+                modal.style.display = 'flex';
+                createMoneyAnimation({
+                    clientX: addReviewBtn.getBoundingClientRect().left + 30,
+                    clientY: addReviewBtn.getBoundingClientRect().top + 30
+                });
+            });
+            
+            // Закрытие модального окна
+            closeModal.addEventListener('click', function() {
+                modal.style.display = 'none';
+            });
+            
+            // Закрытие по клику вне окна
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
                 }
             });
             
-            star.addEventListener('mouseleave', function() {
-                this.style.transform = '';
-                this.style.color = '';
+            // Рейтинг звездами
+            reviewStars.forEach(star => {
+                star.addEventListener('click', function() {
+                    const rating = this.getAttribute('data-value');
+                    reviewRatingInput.value = rating;
+                    
+                    reviewStars.forEach((s, index) => {
+                        if (s.getAttribute('data-value') <= rating) {
+                            s.classList.add('active');
+                        } else {
+                            s.classList.remove('active');
+                        }
+                    });
+                    
+                    // Анимация
+                    this.style.animation = 'bounce 0.5s';
+                    setTimeout(() => {
+                        this.style.animation = '';
+                    }, 500);
+                });
                 
-                // Возвращаем соседние звезды
-                let sibling = this;
-                while (sibling = sibling.previousElementSibling) {
-                    sibling.style.transform = '';
-                    sibling.style.color = '';
-                }
+                star.addEventListener('mouseenter', function() {
+                    const rating = this.getAttribute('data-value');
+                    
+                    reviewStars.forEach(s => {
+                        if (s.getAttribute('data-value') <= rating) {
+                            s.style.color = '#ffcc00';
+                        } else {
+                            s.style.color = '#ddd';
+                        }
+                    });
+                });
+                
+                star.addEventListener('mouseleave', function() {
+                    const currentRating = reviewRatingInput.value;
+                    
+                    reviewStars.forEach(s => {
+                        if (s.getAttribute('data-value') <= currentRating) {
+                            s.style.color = '';
+                        } else {
+                            s.style.color = '#ddd';
+                        }
+                    });
+                });
             });
-        });
-        
-        // Анимация при загрузке страницы
-        document.addEventListener('DOMContentLoaded', () => {
+            
+            // Отправка формы отзыва
+            reviewForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Получаем данные формы
+                const formData = new FormData(reviewForm);
+                const reviewData = {
+                    id: Date.now(),
+                    name: formData.get('name'),
+                    age: formData.get('age'),
+                    role: formData.get('role'),
+                    rating: parseInt(formData.get('rating')),
+                    text: formData.get('text'),
+                    date: new Date().toLocaleDateString('ru-RU'),
+                    isUserReview: true
+                };
+                
+                // Сохраняем отзыв в localStorage
+                saveReview(reviewData);
+                
+                // Добавляем отзыв на страницу
+                addReviewToPage(reviewData);
+                
+                // Показываем сообщение об успехе
+                showSuccessMessage();
+                
+                // Сбрасываем форму
+                reviewForm.reset();
+                reviewRatingInput.value = '5';
+                reviewStars.forEach(star => {
+                    star.classList.remove('active');
+                    star.style.color = '';
+                });
+                reviewStars[4].classList.add('active');
+                
+                // Закрываем модальное окно
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                }, 1500);
+            });
+            
+            // Функция сохранения отзыва
+            function saveReview(review) {
+                let reviews = JSON.parse(localStorage.getItem('userReviews')) || [];
+                reviews.unshift(review); // Добавляем в начало
+                localStorage.setItem('userReviews', JSON.stringify(reviews));
+                
+                // Также сохраняем в общий список
+                let allReviews = JSON.parse(localStorage.getItem('allReviews')) || defaultReviews;
+                allReviews.unshift(review);
+                localStorage.setItem('allReviews', JSON.stringify(allReviews));
+            }
+            
+            // Функция добавления отзыва на страницу
+            function addReviewToPage(review) {
+                // Создаем HTML для нового отзыва
+                const reviewCard = document.createElement('div');
+                reviewCard.className = 'testimonial-card';
+                reviewCard.setAttribute('data-review-id', review.id);
+                if (review.isUserReview) {
+                    reviewCard.setAttribute('data-user-review', 'true');
+                }
+                reviewCard.style.animation = 'fadeIn 0.8s ease-out';
+                
+                // Создаем звезды рейтинга
+                let starsHtml = '';
+                for (let i = 1; i <= 5; i++) {
+                    if (i <= review.rating) {
+                        starsHtml += '<i class="fas fa-star"></i>';
+                    } else if (i - 0.5 === review.rating) {
+                        starsHtml += '<i class="fas fa-star-half-alt"></i>';
+                    } else {
+                        starsHtml += '<i class="far fa-star"></i>';
+                    }
+                }
+                
+                // Получаем первую букву имени для аватара
+                const firstLetter = review.name.charAt(0).toUpperCase();
+                
+                // Определяем цвет аватара
+                const avatarColor = review.isUserReview 
+                    ? 'linear-gradient(135deg, var(--money-green), #2ecc71)' 
+                    : 'linear-gradient(135deg, var(--secondary-color), var(--primary-color))';
+                
+                reviewCard.innerHTML = `
+                    <div class="review-highlight"></div>
+                    <div class="rating">${starsHtml}</div>
+                    <div class="testimonial-text">"${review.text}"</div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar" style="background:${avatarColor};">${firstLetter}</div>
+                        <div class="author-info">
+                            <h4>${review.name}, ${review.age} лет</h4>
+                            <p>${review.role}</p>
+                            ${review.isUserReview ? '<small style="font-size:0.8rem; color:#888; margin-top:3px;">' + review.date + ' • Ваш отзыв</small>' : 
+                              '<small style="font-size:0.8rem; color:#888; margin-top:3px;">' + review.date + '</small>'}
+                        </div>
+                        ${review.isUserReview ? 
+                          '<button class="delete-review" title="Удалить отзыв">' +
+                          '<i class="fas fa-trash"></i>' +
+                          '</button>' : ''}
+                    </div>
+                `;
+                
+                // Добавляем в начало списка
+                testimonialsGrid.insertBefore(reviewCard, testimonialsGrid.firstChild);
+                
+                // Добавляем обработчик удаления для пользовательских отзывов
+                if (review.isUserReview) {
+                    const deleteBtn = reviewCard.querySelector('.delete-review');
+                    deleteBtn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        if (confirm('Удалить ваш отзыв?')) {
+                            deleteReview(review.id, reviewCard);
+                        }
+                    });
+                }
+                
+                // Добавляем анимацию для нового отзыва
+                reviewCard.addEventListener('mouseenter', createReviewAnimation);
+                
+                // Эффект появления
+                reviewCard.style.transform = 'scale(0.9)';
+                reviewCard.style.opacity = '0';
+                
+                setTimeout(() => {
+                    reviewCard.style.transition = 'all 0.5s ease-out';
+                    reviewCard.style.transform = 'scale(1)';
+                    reviewCard.style.opacity = '1';
+                }, 10);
+                
+                // Эффект конфетти для пользовательских отзывов
+                if (review.isUserReview) {
+                    createConfetti(20);
+                }
+            }
+            
+            // Функция удаления отзыва
+            function deleteReview(reviewId, reviewElement) {
+                // Удаляем из localStorage
+                let reviews = JSON.parse(localStorage.getItem('userReviews')) || [];
+                reviews = reviews.filter(review => review.id !== reviewId);
+                localStorage.setItem('userReviews', JSON.stringify(reviews));
+                
+                // Анимация удаления
+                reviewElement.style.transform = 'scale(0.9)';
+                reviewElement.style.opacity = '0';
+                reviewElement.style.transition = 'all 0.3s';
+                
+                setTimeout(() => {
+                    reviewElement.remove();
+                }, 300);
+            }
+            
+            // Функция показа сообщения об успехе
+            function showSuccessMessage() {
+                reviewMessage.style.display = 'block';
+                reviewMessage.style.animation = 'fadeIn 0.3s ease-out';
+                
+                // Эффект летающих денег
+                for (let i = 0; i < 10; i++) {
+                    setTimeout(() => {
+                        createMoneyAnimation({
+                            clientX: window.innerWidth / 2 + (Math.random() * 200 - 100),
+                            clientY: window.innerHeight / 2 + (Math.random() * 200 - 100)
+                        });
+                    }, i * 100);
+                }
+                
+                setTimeout(() => {
+                    reviewMessage.style.animation = 'fadeIn 0.3s ease-out reverse';
+                    setTimeout(() => {
+                        reviewMessage.style.display = 'none';
+                        reviewMessage.style.animation = '';
+                    }, 300);
+                }, 3000);
+            }
+            
+            // Инициализация звезд рейтинга
+            reviewStars[4].classList.add('active');
+            
+            // Добавляем анимацию звезд в рейтингах
+            const stars = document.querySelectorAll('.rating i');
+            stars.forEach(star => {
+                star.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.3) rotate(10deg)';
+                    this.style.color = '#ffed4e';
+                    
+                    // Анимация соседних звезд
+                    let sibling = this;
+                    while (sibling = sibling.previousElementSibling) {
+                        sibling.style.transform = 'scale(1.2)';
+                        sibling.style.color = '#ffed4e';
+                    }
+                });
+                
+                star.addEventListener('mouseleave', function() {
+                    this.style.transform = '';
+                    this.style.color = '';
+                    
+                    // Возвращаем соседние звезды
+                    let sibling = this;
+                    while (sibling = sibling.previousElementSibling) {
+                        sibling.style.transform = '';
+                        sibling.style.color = '';
+                    }
+                });
+            });
+            
+            // Анимация при загрузке страницы
             // Плавное появление элементов при прокрутке
             const observerOptions = {
                 threshold: 0.1,
@@ -1095,9 +1581,11 @@
                         if (entry.target.classList.contains('testimonial-card')) {
                             // Анимация появления текста
                             const text = entry.target.querySelector('.testimonial-text');
-                            text.style.animation = 'fadeIn 0.8s ease-out forwards';
-                            text.style.animationDelay = '0.2s';
-                            text.style.opacity = '0';
+                            if (text) {
+                                text.style.animation = 'fadeIn 0.8s ease-out forwards';
+                                text.style.animationDelay = '0.2s';
+                                text.style.opacity = '0';
+                            }
                         }
                         
                         observer.unobserve(entry.target);
@@ -1106,7 +1594,7 @@
             }, observerOptions);
             
             // Наблюдаем за элементами
-            testimonialCards.forEach(card => {
+            document.querySelectorAll('.testimonial-card').forEach(card => {
                 card.style.animationPlayState = 'paused';
                 observer.observe(card);
             });
@@ -1164,7 +1652,7 @@
                 if (Math.random() > 0.8) {
                     const starElement = document.createElement('div');
                     starElement.className = 'money-float';
-                    starElement.textContent = Math.random() > 0.5 ? '⭐' : '✨';
+                    starElement.textContent = Math.random() > 0.5 ? '' : '';
                     starElement.style.left = Math.random() * window.innerWidth + 'px';
                     starElement.style.top = window.innerHeight + 'px';
                     starElement.style.fontSize = Math.random() * 25 + 15 + 'px';
@@ -1192,7 +1680,10 @@
                 
                 avatar.addEventListener('mouseleave', function() {
                     this.style.transform = '';
-                    this.style.background = 'linear-gradient(135deg, var(--secondary-color), var(--primary-color))';
+                    const isUserReview = this.closest('.testimonial-card').hasAttribute('data-user-review');
+                    this.style.background = isUserReview 
+                        ? 'linear-gradient(135deg, var(--money-green), #2ecc71)' 
+                        : 'linear-gradient(135deg, var(--secondary-color), var(--primary-color))';
                 });
             });
         });
