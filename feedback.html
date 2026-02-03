@@ -109,6 +109,17 @@
             100% { transform: scale(1); }
         }
         
+        @keyframes moneyFloat {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
         /* Мобильный хедер с анимацией */
         header {
             background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
@@ -742,17 +753,6 @@
             animation: moneyFloat 5s linear forwards;
         }
         
-        @keyframes moneyFloat {
-            0% {
-                transform: translateY(100vh) rotate(0deg);
-                opacity: 0.8;
-            }
-            100% {
-                transform: translateY(-100px) rotate(360deg);
-                opacity: 0;
-            }
-        }
-        
         /* Сообщение формы */
         .form-message {
             margin-top: 20px;
@@ -1055,7 +1055,7 @@
                             </div>
                             <div>
                                 <h4>Email</h4>
-                                <p><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="d3bca7b8a6a0bafdb1b2b1bfb2e293b4beb2babffdb0bcbe">[email&#160;protected]</a></p>
+                                <p><a href="mailto:info@kusibabla.ru">info@kusibabla.ru</a></p>
                                 <small>Для обратной связи</small>
                             </div>
                         </div>
@@ -1076,7 +1076,7 @@
                 <div class="feedback-form">
                     <h2>Отправить отзыв</h2>
                     
-                    <form id="feedback-form" action="https://formspree.io/f/xyzbeqwa" method="POST">
+                    <form id="feedback-form">
                         <input type="hidden" name="_subject" value="Обратная связь - Откуси бабла">
                         <input type="hidden" name="_replyto" value="contact">
                         
@@ -1174,7 +1174,7 @@
                     <h3>Контакты</h3>
                     <ul>
                         <li><a href="contact.html"><i class="fas fa-phone"></i> 8-995-074-32-24</a></li>
-                        <li><a href="contact.html"><i class="fas fa-envelope"></i> <span class="__cf_email__" data-cfemail="c8a1a6aea788a7bca3bdbba1e5aaa9aaa4a9e6babd">[email&#160;protected]</span></a></li>
+                        <li><a href="contact.html"><i class="fas fa-envelope"></i> info@kusibabla.ru</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
@@ -1191,11 +1191,10 @@
         </div>
     </footer>
 
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
     <script>
         // Анимация "денежных" символов
         function createMoneyAnimation(event) {
-            const symbols = ['', '', '', '', '', '', '', '', '', ''];
+            const symbols = ['💰', '💸', '💎', '🪙', '💳', '💵', '💶', '💷', '💴'];
             const symbol = symbols[Math.floor(Math.random() * symbols.length)];
             
             const moneyElement = document.createElement('div');
@@ -1203,6 +1202,7 @@
             moneyElement.textContent = symbol;
             moneyElement.style.left = event.clientX + 'px';
             moneyElement.style.top = event.clientY + 'px';
+            moneyElement.style.fontSize = Math.random() * 20 + 20 + 'px';
             
             document.body.appendChild(moneyElement);
             
@@ -1214,7 +1214,7 @@
         // Создание конфетти
         function createConfetti(count = 50) {
             const colors = ['#e74c3c', '#2e86c1', '#27ae60', '#f39c12', '#9b59b6', '#1abc9c'];
-            const symbols = ['', '', '', '', '', '', ''];
+            const symbols = ['💰', '💸', '💎', '🪙', '💳', '💵', '💴'];
             
             for (let i = 0; i < count; i++) {
                 setTimeout(() => {
